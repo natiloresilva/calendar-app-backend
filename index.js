@@ -2,12 +2,14 @@ const { response } = require('express')
 const express = require('express')
 require('dotenv').config()
 
-console.log(process.env);
 // Crear el servidor de express
 const app = express()
 
 //Directorio Público. EL USE en express, es conocido como un middleware, que no es más que una función que se ejecuta en el momento que alguien hace una petición a mi servidor
 app.use(express.static('public'))
+
+//Lectura y parseo del body
+app.use(express.json())
 
 
 // Rutas
@@ -17,6 +19,8 @@ app.use(express.static('public'))
 //     })
 // })
 
+
+//Rutas
 app.use('/api/auth', require('./routes/auth'))
 
 //Escuchar peticiones
