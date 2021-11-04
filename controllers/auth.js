@@ -18,14 +18,15 @@ const createUser = (req, res = response) => {
     //     })
     // }
 
-    const errors = validationResult(req)
 
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            ok: false,
-            errors: errors.mapped()
-        })
-    }
+    //Cómo este código se repite, vamos a implementarlo en mi custom middleware: field-validator
+    // const errors = validationResult(req)
+    // if (!errors.isEmpty()) {
+    //     return res.status(400).json({
+    //         ok: false,
+    //         errors: errors.mapped()
+    //     })
+    // }
 
     res.status(201).json({
         ok: true,
@@ -39,15 +40,6 @@ const createUser = (req, res = response) => {
 const loginUser = (req, res = response) => {
 
     const { email, password } = req.body
-
-    const errors = validationResult(req)
-
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            ok: false,
-            errors: errors.mapped()
-        })
-    }
 
     res.json({
         ok: true,
