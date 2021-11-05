@@ -2,6 +2,8 @@ const { response } = require('express') //no vuelve a cargar a libreria, va a us
 const { validationResult } = require('express-validator')
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
+const { generarJWT } = require('../helpers/jwt')
+
 
 
 
@@ -27,10 +29,14 @@ const createUser = async (req, res = response) => {
 
         await user.save()
 
+        //Generar nuestro JWT
+        const token = await generarJWT(user.id, user.name)
+
         res.status(201).json({
             ok: true,
             uid: user.id,
-            name: user.name
+            name: user.name,
+            token
         })
 
 
@@ -91,11 +97,13 @@ const loginUser = async (req, res = response) => {
         }
 
         //Generar nuestro JWT
+        const token = await generarJWT(user.id, user.name)
 
         res.json({
             ok: true,
             uid: user.id,
-            name: user.name
+            name: user.name,
+            token
         })
 
     } catch (error) {
