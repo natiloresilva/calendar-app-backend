@@ -1,6 +1,7 @@
 const { response } = require('express') //no vuelve a cargar a libreria, va a usar la libreria ya cargada
 const { validationResult } = require('express-validator')
 const User = require('../models/User')
+const bcrypt = require('bcryptjs')
 
 
 
@@ -19,6 +20,11 @@ const createUser = async (req, res = response) => {
         }
 
         user = new User(req.body)
+
+        //Encriptar contraseña 
+        const salt = bcrypt.genSaltSync()
+        user.password = bcrypt.hashSync(password, salt)
+
         await user.save()
 
         res.status(201).json({
